@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mike Hyzy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #222;
+      --text: #f0f0f0;
+      --muted: #6b6b6b;
+      --accent: #e8e8e8;
+      --btn-primary-bg: #f0f0f0;
+      --btn-primary-text: #0a0a0a;
+      --btn-secondary-bg: transparent;
+      --btn-secondary-text: #6b6b6b;
+      --status-live: #22c55e;
+      --status-error: #ef4444;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    main {
+      width: 100%;
+      max-width: 720px;
+      padding: 80px 24px 48px;
+      flex: 1;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .tagline {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: opacity 0.15s, background 0.15s;
+      text-decoration: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      border-color: var(--btn-primary-bg);
+    }
+
+    .btn-primary:hover:not(:disabled) { opacity: 0.88; }
+
+    .btn-secondary {
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-text);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: #444;
+      color: var(--text);
+    }
+
+    /* Status indicator */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .status-dot.live {
+      background: var(--status-live);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot.connecting {
+      background: #f59e0b;
+    }
+
+    .status-dot.error {
+      background: var(--status-error);
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.08); }
+    }
+
+    /* CTA section (pre-session) */
+    #cta {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Session section (during session) */
+    #session {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #avatar-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+
+    .session-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* Error message */
+    #error-msg {
+      display: none;
+      font-size: 13px;
+      color: var(--status-error);
+      padding: 10px 14px;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 4px;
+      background: rgba(239, 68, 68, 0.06);
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      max-width: 720px;
+      padding: 0 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      margin-top: 64px;
+      padding-top: 24px;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 480px) {
+      main { padding: 48px 20px 40px; }
+      .session-controls { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <p class="eyebrow">AI Strategy, Executive Advisory</p>
+  <h1>Mike Hyzy</h1>
+  <p class="tagline">
+    A real-time conversation. Ask about AI strategy, executive transformation,
+    or strategic foresight. Five minutes, direct answers.
+  </p>
+
+  <div id="cta">
+    <div>
+      <button class="btn btn-primary" id="start-btn">Start conversation</button>
+    </div>
+    <div id="error-msg"></div>
+  </div>
+
+  <div id="session">
+    <div class="video-wrapper">
+      <video id="avatar-video" autoplay playsinline></video>
+      <div class="video-overlay">
+        <div class="status-row">
+          <div class="status-dot" id="status-dot"></div>
+          <span id="status-label" style="color: var(--muted);">Connecting</span>
+        </div>
+      </div>
+    </div>
+    <div class="session-controls">
+      <div class="status-row" id="session-status-row" style="color: var(--muted);">
+      </div>
+      <button class="btn btn-secondary" id="end-btn">End session</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>Mike Hyzy, Lake Forest, IL</span>
+  <a href="https://www.linkedin.com/in/mikehyzy" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+</footer>
+
+<script type="module">
+  import { Room, RoomEvent, Track } from "https://unpkg.com/livekit-client@2.5.4/dist/livekit-client.esm.mjs";
+
+  const startBtn = document.getElementById("start-btn");
+  const endBtn = document.getElementById("end-btn");
+  const ctaSection = document.getElementById("cta");
+  const sessionSection = document.getElementById("session");
+  const avatarVideo = document.getElementById("avatar-video");
+  const statusDot = document.getElementById("status-dot");
+  const statusLabel = document.getElementById("status-label");
+  const errorMsg = document.getElementById("error-msg");
+
+  let room = null;
+
+  function setStatus(state, text) {
+    statusDot.className = "status-dot";
+    if (state === "live") statusDot.classList.add("live");
+    else if (state === "connecting") statusDot.classList.add("connecting");
+    else if (state === "error") statusDot.classList.add("error");
+    statusLabel.textContent = text;
+    statusLabel.style.color = state === "live" ? "var(--status-live)"
+      : state === "error" ? "var(--status-error)"
+      : "var(--muted)";
+  }
+
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.style.display = "block";
+  }
+
+  function hideError() {
+    errorMsg.style.display = "none";
+    errorMsg.textContent = "";
+  }
+
+  function showSession() {
+    ctaSection.style.display = "none";
+    sessionSection.style.display = "flex";
+  }
+
+  function showCta() {
+    sessionSection.style.display = "none";
+    ctaSection.style.display = "flex";
+    startBtn.disabled = false;
+  }
+
+  startBtn.addEventListener("click", async () => {
+    hideError();
+    startBtn.disabled = true;
+    showSession();
+    setStatus("connecting", "Connecting");
+
+    // Fetch LiveKit credentials from serverless function
+    let credentials;
+    try {
+      const res = await fetch("/api/token", { method: "POST" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Server error ${res.status}`);
+      }
+      credentials = await res.json();
+    } catch (err) {
+      setStatus("error", "Connection failed");
+      showCta();
+      showError(`Could not start session: ${err.message}`);
+      return;
+    }
+
+    const { livekit_url, livekit_client_token } = credentials;
+
+    // Build Room
+    room = new Room({
+      adaptiveStream: true,
+      dynacast: true,
+    });
+
+    room.on(RoomEvent.TrackSubscribed, (track, _publication, _participant) => {
+      if (track.kind === Track.Kind.Video) {
+        track.attach(avatarVideo);
+      } else if (track.kind === Track.Kind.Audio) {
+        const audioEl = track.attach();
+        audioEl.play().catch(() => {});
+        document.body.appendChild(audioEl);
+      }
+    });
+
+    room.on(RoomEvent.TrackUnsubscribed, (track) => {
+      track.detach();
+    });
+
+    room.on(RoomEvent.Disconnected, () => {
+      setStatus("idle", "Ended");
+      showCta();
+      room = null;
+    });
+
+    room.on(RoomEvent.Connected, () => {
+      setStatus("live", "Live");
+    });
+
+    try {
+      await room.connect(livekit_url, livekit_client_token);
+      await room.localParticipant.setMicrophoneEnabled(true);
+    } catch (err) {
+      setStatus("error", "Failed");
+      showCta();
+      showError(`Connection error: ${err.message}`);
+      room = null;
+    }
+  });
+
+  endBtn.addEventListener("click", () => {
+    if (room) {
+      room.disconnect();
+      room = null;
+    }
+    setStatus("idle", "Ended");
+    showCta();
+  });
+</script>
+
+</body>
+</html>

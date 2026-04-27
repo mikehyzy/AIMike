@@ -1,0 +1,15 @@
+{
+  "name": "ai-mike",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Real-time AI avatar of Mike Hyzy",
+  "scripts": {
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "livekit-client": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
