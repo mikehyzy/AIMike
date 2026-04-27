@@ -103,13 +103,15 @@ Create session token (LITE mode):
     avatar_id,
     elevenlabs_agent_config: { secret_id, agent_id }
   }
-  Returns: { session_id, session_token }
+  Returns: { code, message, data: { session_id, session_token } }
+  NOTE: response is wrapped in an envelope. Token is at data.session_token.
 
 Start session:
   POST https://api.liveavatar.com/v1/sessions/start
   Header: Authorization: Bearer <session_token>
-  Returns: { session_id, livekit_url, livekit_client_token,
-    livekit_agent_token, max_session_duration, ws_url }
+  Returns: { code, message, data: { session_id, livekit_url,
+    livekit_client_token, livekit_agent_token, max_session_duration, ws_url } }
+  NOTE: response is wrapped in an envelope. Fields are at data.*.
 
 Stop session:
   POST https://api.liveavatar.com/v1/sessions/stop

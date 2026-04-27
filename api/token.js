@@ -49,7 +49,8 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: "LiveAvatar token request failed", detail: body });
   }
 
-  const { session_token } = await tokenRes.json();
+  const tokenBody = await tokenRes.json();
+  const session_token = tokenBody?.data?.session_token;
 
   // Step 2: Start session
   let startRes;
@@ -72,7 +73,8 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: "LiveAvatar session start failed", detail: body });
   }
 
-  const { session_id, livekit_url, livekit_client_token, max_session_duration } = await startRes.json();
+  const startBody = await startRes.json();
+  const { session_id, livekit_url, livekit_client_token, max_session_duration } = startBody?.data ?? {};
 
   // Return only what the browser needs. Never expose the API key or session_token.
   return res.status(200).json({ session_id, livekit_url, livekit_client_token, max_session_duration });
