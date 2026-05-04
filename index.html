@@ -376,7 +376,11 @@
 
     try {
       await room.connect(livekit_url, livekit_client_token);
-      await room.localParticipant.setMicrophoneEnabled(true);
+      await room.localParticipant.setMicrophoneEnabled(true, {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      });
     } catch (err) {
       setStatus("error", "Failed");
       showCta();
