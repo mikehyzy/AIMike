@@ -227,10 +227,34 @@
 
     footer a:hover { color: var(--text); }
 
+    .outage-banner {
+      margin-bottom: 36px;
+      padding: 28px 32px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #111;
+    }
+
+    .outage-headline {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .outage-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
     @media (max-width: 480px) {
       main { padding: 48px 20px 40px; }
       .session-controls { flex-direction: column; align-items: flex-start; }
       footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .outage-banner { padding: 20px; }
     }
   </style>
 </head>
@@ -244,9 +268,14 @@
     enterprise transformation, or foresight driven innovation. Five minutes, direct answers.
   </p>
 
+  <div class="outage-banner">
+    <p class="outage-headline">AI Mike had too many credits to drink and he's just repeating himself.</p>
+    <p class="outage-sub">Real Mike is working on some updates. A newer, smarter version with less weird blinking shall be available soon.</p>
+  </div>
+
   <div id="cta">
     <div>
-      <button class="btn btn-primary" id="start-btn">Start conversation</button>
+      <button class="btn btn-primary" id="start-btn" disabled>Start conversation</button>
     </div>
     <div id="error-msg"></div>
   </div>
