@@ -227,56 +227,6 @@
 
     footer a:hover { color: var(--text); }
 
-    /* Masterclass CTA block below the button */
-    .masterclass-cta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-top: 32px;
-      padding: 20px 24px;
-      border: 1px solid #2a2a2a;
-      border-radius: 6px;
-      background: #111;
-    }
-
-    .masterclass-cta-text {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .masterclass-cta-text strong {
-      display: block;
-      font-size: 15px;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .discount-code {
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: 0.05em;
-    }
-
-    .masterclass-cta-btn {
-      flex-shrink: 0;
-      padding: 10px 20px;
-      background: var(--btn-primary-bg);
-      color: var(--btn-primary-text);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: opacity 0.15s;
-    }
-
-    .masterclass-cta-btn:hover { opacity: 0.88; }
-
     /* Masterclass CTA overlay on video */
     .video-cta {
       position: absolute;
@@ -328,7 +278,6 @@
       .session-controls { flex-direction: column; align-items: flex-start; }
       footer { flex-direction: column; align-items: flex-start; gap: 8px; }
       .video-cta { flex-direction: column; align-items: flex-start; gap: 10px; }
-      .masterclass-cta { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -347,14 +296,6 @@
       <button class="btn btn-primary" id="start-btn">Start conversation</button>
     </div>
     <div id="error-msg"></div>
-  </div>
-
-  <div class="masterclass-cta">
-    <div class="masterclass-cta-text">
-      <strong>Want to build your own AI agent?</strong>
-      Take my Claude masterclass: code, design, and cowork. Use code <span class="discount-code">MIKE50</span> for 50% off.
-    </div>
-    <a class="masterclass-cta-btn" href="https://www.eventbrite.co.uk/e/build-with-claude-code-skills-cowork-and-design-tickets-1985061753140" target="_blank" rel="noopener noreferrer">Get tickets</a>
   </div>
 
   <div id="session">
